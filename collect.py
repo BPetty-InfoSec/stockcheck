@@ -17,4 +17,4 @@ for item in stock_data['ToCheck']:
 # Write info to json file
 stocks_file = open("stocks.json","w")
 json.dump(stock_data, stocks_file, indent=4)
-
+stocks_file.close()
