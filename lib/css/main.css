@@ -1,0 +1,120 @@
+/* Define some variables */
+:root {
+    --primary-color: #56445d;
+    --secondary-color: #bdb7b9;
+    --primary-background: #a8dadc;
+    --secondary-background: #457b9d;
+    --accent-color: #56445d;
+}
+
+/* Basic resets to keep sizing simple */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header area styling */
+
+.header {
+    background-color: var(--secondary-background);
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    font-size: clamp(.75rem, 1vw, 1rem);
+}
+
+.banner {
+    display: block;
+    position: relative;
+    font-size: clamp(2rem, 3vw, 3rem);
+}
+
+/* Overall content area styling (main area AND sidebar) */
+
+.content_area {
+    background-color: var(--primary-background);
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Sidebar styling */
+
+.sideheader {
+    margin-top: 1em;
+    margin-left: 1em;
+    border-bottom: 3px solid var(--accent-color);
+    font-size: clamp(1rem, 3vw, 2rem);
+}
+
+.tracked_stocks {
+    margin-top: .5em;
+    margin-left: 15%;
+    margin-bottom: 1em;
+}
+
+.stockitem {
+    margin-top: .25em;
+}
+
+/* Main content area styling */
+
+.mainbody{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.subheader{
+    border-bottom: 3px solid var(--accent-color);
+    margin-top: .5em;
+    font-size: clamp(1.15rem, 2vw, 2rem);
+}
+
+.stockinfo{
+    padding-top: .5em;
+    font-size: clamp(.75rem, 3vw, 1rem);
+}
+
+/* Footer area styling */
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--secondary-background);
+    color: var(--secondary-color);
+}
+
+.footer div {
+    margin: .5em;
+}
+
+@media screen and (min-width: 800px) {
+    .content_area {
+        display: grid;
+        grid-template-columns: 20% 80%;
+    }
+
+    .sideheader {
+        font-size: clamp(1em, 2vw, 2rem);
+        align-items: flex-start;
+    }
+
+    .mainbody {
+        margin-left: 1em;
+    }
+
+    .footer {
+        display: grid;
+        grid-template-columns: 33% 33% 33%;
+        place-items: center;
+    }
+}

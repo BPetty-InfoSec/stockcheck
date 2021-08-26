@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 
 secrets.json
+node_modules
+package-lock.json
+package.json
+launch.json
