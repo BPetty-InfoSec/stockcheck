@@ -10,21 +10,163 @@
     <script src="lib/js/index.js"></script>
 </head>
 <body>
+
+    <!-- Header Section -->
     <header class="header">
         <h1 class="banner">Stock Checker</h1>
         <nav class="navbar"></nav>
     </header>
+
+    <!-- Page Content Section -->
     <main class="content_area">
+
+        <!-- Sidebar Section -->
         <aside class="sidebar">
             <h3 class="sideheader">Tracked Stocks</h2>
-            <ul class="tracked_stocks"></ul>
+            <ul class="tracked_stocks">
+                <!-- Stocks being tracked will be inserted here -->
+            </ul>
         </aside>
+
+        <!-- Main Content Section -->
         <div class="mainbody">
-            <h2 class="subheader">General Stock Information</h2>
-            <p class="stockinfo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat aliquid minima modi ut sunt dolorum inventore dolore impedit distinctio adipisci consequuntur nesciunt enim, incidunt sit commodi, aperiam placeat eaque eum?</p>
-            <p class="stockinfo">Illum, quas. Nulla cum nostrum dolor blanditiis, harum at quas. Culpa facilis autem tempore distinctio fugit obcaecati, commodi debitis, est saepe illum vero, inventore iusto. Animi, necessitatibus cumque? Adipisci, voluptas.</p>
+
+            <!-- Header Section -->
+            <div class="informationHeaderSection">
+                <div class="mainHeader">
+                    <img class="logo" src="">
+                    <h2 class="subheader">General Stock Information</h2>
+                </div>
+                <a class="stockWebsiteLink" href="#">Website</a>
+            </div>
+
+            <!-- Description Block -->
+            <p class="stockDescription">Description</p>
+
+            <!-- Information Columns -->
+            <div class="InfoSection">
+
+                <!-- Contact Information Column -- Values will change based on information in JSON file -->
+                <div class="stockContactInfo">
+                    <h4>Contact Information</h4>
+                    <p class="addressName">Name</p>
+                    <p class="addressStreet">Street</p>
+                    <p class="addressCityStateLine">City</p>
+                    <p class="addressCountry">Country</p>
+                    <p class="stockPhone">Phone: 111-222-3333</p>
+                </div>
+
+
+                <!-- Business Information Column -- Values will change based on information in JSON file -->
+                <div class="stockDetails">
+                    <h4>Business Information</h4>
+                    <p class="businessSector">
+                        <span class="titlepart">Sector: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="businessIndustry">
+                        <span class="titlepart">Industry: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="numEmployees">
+                        <span class="titlepart">Full Time Employees: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="totalRevenue">
+                        <span class="titlepart">Total Revenue: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="totalDebt">
+                        <span class="titlepart">Total Debt: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="totalCash">
+                        <span class="titlepart">Total Cash: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="profitMargins">
+                        <span class="titlepart">Profit Margins: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="grossMargins">
+                        <span class="titlepart">Gross Margins: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="operatingMargins">
+                        <span class="titlepart">Operating Margins: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="operatingCashflow">
+                        <span class="titlepart">Operating Cashflow: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="revenueGrowth">
+                        <span class="titlepart">Revenue Growth: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="debtToEquity">
+                        <span class="titlepart">Debt to Equity: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="lastFiscalYearEnd">
+                        <span class="titlepart">Last Fiscal Year End: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                </div>
+
+                <!-- Share Information Column -- Values will change based on information in JSON file -->
+                <div class="stockShareInfo">
+                    <h4>Share Information</h4>
+                    <p class="52WeekChange">
+                        <span class="titlepart">52 Week Change: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="52WeekHigh">
+                        <span class="titlepart">52 Week High: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="52WeekLow">
+                        <span class="titlepart">52 Week Low: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="200DayAverage">
+                        <span class="titlepart">200 Day Average: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="averageVolume">
+                        <span class="titlepart">Average Volume: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="averageDailyVolume10Day">
+                        <span class="titlepart">Average Daily Volume (10 Day): </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="dividendRate">
+                        <span class="titlepart">Dividend Rate: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="dividendYield">
+                        <span class="titlepart">Dividend Yield: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="5YearAvgDividendYield">
+                        <span class="titlepart">5 Year Average Dividend Yield: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="marketCap">
+                        <span class="titlepart">Market Cap: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                    <p class="regularMarketPrice">
+                        <span class="titlepart">Regular Market Price: </span>
+                        <span class="infopart">1</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </main>
+
+    <!-- Footer Section -->
     <footer class="footer">
         <div class="contactinfo">Contact stuff</div>
         <div class="socialinfo">Social Media stuff</div>
