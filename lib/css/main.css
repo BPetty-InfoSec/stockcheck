@@ -35,13 +35,23 @@
 .content_area {
     background-color: var(--primary-background);
     color: var(--primary-color);
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; */
+    display: grid;
+    grid-template-rows: 1fr 10fr 10em;
 }
 
 /* Sidebar styling */
+
+aside{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    border-bottom: 3px solid var(--accent-color);
+}
 
 .sideheader {
     margin-top: 1em;
@@ -52,34 +62,147 @@
 
 .tracked_stocks {
     margin-top: .5em;
-    margin-left: 15%;
     margin-bottom: 1em;
+    list-style: none;
 }
 
 .stockitem {
     margin-top: .25em;
 }
 
+.editstocksitem,
+.canceledit,
+.addstock{
+    text-decoration: none;
+    margin-top: 1em;
+    font-size: .75em;
+}
+
+.stockLink{
+    text-decoration: none;
+}
+
 /* Main content area styling */
 
 .mainbody{
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
-.subheader{
+/* Header */
+
+.logo{
+    margin-right: .5em;
+}
+
+.mainHeader{
+    display: flex;
     border-bottom: 3px solid var(--accent-color);
+    align-items: center;
+    padding-bottom: 1em;
+}
+
+.subheader{
     margin-top: .5em;
     font-size: clamp(1.15rem, 2vw, 2rem);
 }
 
-.stockinfo{
-    padding-top: .5em;
-    font-size: clamp(.75rem, 3vw, 1rem);
+.stockWebsiteLink{
+    margin-top: .75em;
+    margin-bottom: .25em;
+    text-decoration: none;
+    font-size: .75em;
+    display: grid;
+    place-content: center;
+}
+
+/* Description */
+
+.stockDescription{
+    font-size: 1em;
+    padding-left: .5em;
+    border-top: 3px solid var(--accent-color);
+    margin-top: .5em;
+    padding-top: 1em;
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 1em;
+}
+
+/* Information Section */
+
+
+/* Contact Section */
+
+.stockContactInfo{
+    margin-top: .5em;
+    width: 100%;
+}
+
+.stockContactInfo h4{
+    border-bottom: 1px solid var(--accent-color);
+    margin-bottom: .5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stockContactInfo p{
+    margin-top: .25em;
+}
+
+/* Stock Details section */
+.stockDetails{
+    border-top: 1px solid var(--accent-color);
+    width: 100%;
+    margin-top: .5em;
+}
+
+.stockDetails h4{
+    border-bottom: 1px solid var(--accent-color);
+    margin-bottom: .5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stockDetails p{
+    margin-top: .25em;
+}
+
+.titlepart{
+    font-size: .75em;
+    font-weight: bold;
+}
+
+.infopart{
+    font-size: .75em;
+}
+
+/* Share Info section */
+.stockShareInfo{
+    border-top: 1px solid var(--accent-color);
+    width: 100%;
+    margin-top: .5em;
+}
+
+.stockShareInfo h4{
+    border-bottom: 1px solid var(--accent-color);
+    margin-bottom: .5em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stockShareInfo p{
+    margin-top: .25em;
 }
 
 /* Footer area styling */
@@ -87,7 +210,6 @@
 .footer {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     background-color: var(--secondary-background);
     color: var(--secondary-color);
@@ -97,24 +219,73 @@
     margin: .5em;
 }
 
+/* Changes to style for Desktop viewing */
+
 @media screen and (min-width: 800px) {
     .content_area {
         display: grid;
         grid-template-columns: 20% 80%;
+        grid-template-rows: none;
+    }
+
+    aside{
+        display: reset;
+        width: 100%;
+        height: 100%;
+        border-right: 3px solid var(--accent-color);
+        border-bottom: none;
+        padding-right: 1em;
     }
 
     .sideheader {
-        font-size: clamp(1em, 2vw, 2rem);
+        font-size: clamp(1.5em, 1vw, 2rem);
         align-items: flex-start;
     }
 
     .mainbody {
-        margin-left: 1em;
+        padding-left: 1em;
+    }
+
+    .InfoSection{
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr 2fr 2fr;
+    }
+
+    .stockContactInfo{
+        padding-left: .5em;
+        border-right: 3px solid var(--accent-color);
+    }
+
+    .stockDetails{
+        border-right: 3px solid var(--accent-color);
+        border-top: none;
+    }
+
+    .stockShareInfo{
+        border-top: none;
+    }
+
+    .titlepart{
+        padding-left: 1em;
     }
 
     .footer {
-        display: grid;
-        grid-template-columns: 33% 33% 33%;
-        place-items: center;
+            display: grid;
+            grid-template-columns: 33% 33% 33%;
+            place-items: center;
+        }
+}
+
+/* Increase font-size when screen is wide enough to prevent wrapping content in details */
+
+@media screen and (min-width: 1200px){
+
+    .titlepart{
+        font-size: 1em;
+    }
+
+    .infopart{
+        font-size: 1em;
     }
 }

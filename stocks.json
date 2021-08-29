@@ -1,8 +1,8 @@
 {
     "ToCheck": {
         "Apple": "AAPL",
-        "Microsoft": "MSFT",
-        "Google": "GOOG"
+        "Google": "GOOG",
+        "Microsoft": "MSFT"
     },
     "Info": {
         "Apple": {
