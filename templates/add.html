@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/image/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/image/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/image/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <title>Stock Checker</title>
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/index.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <h1 class="banner">Stock Checker</h1>
+        <nav class="navbar"></nav>
+    </header>
+
+    <!-- Page Content Section -->
+    <main class="content_area">
+        <div class="addstock">
+            <form method="post" id="form_addstock">
+                <input class='stockinput' id='stockname' placeholder='Stock Name' required>
+                <label for="stockname" class='btnlbl'>Name of stock: </label>
+                <br>
+                <input class='stockinput' id='stocksymbol' placeholder='Stock Symbol' required>
+                <label for="stocksymbol" class='btnlbl'>Stock Symbol:  </label>
+                <br>
+                <div class='buttons'>
+                    <button type='submit' href='/add/' id='submit_addstock' form='form_addstock'>Add Stock</button>
+                    <button type='cancel' id='cancelbtn' form='form_addstock'>Cancel</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="contactinfo">Contact stuff</div>
+        <div class="socialinfo">Social Media stuff</div>
+        <div class="copyright">Copyright</div>
+    </footer>
+
+</body>
+
+</html>

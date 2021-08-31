@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/all.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/image/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/image/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/image/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <title>Stock Checker</title>
-    <script src="../static/js/jquery-3.6.0.min.js"></script>
-    <script src="../static/js/index.js"></script>
+    <!-- <script src="/static/js/jquery-3.6.0.min.js"></script> -->
+    <!-- <script src="/static/js/index.js"></script> -->
+    <script src="/static/js/attribution.js"></script>
+    <!-- <script src="/static/js/fontawesome.min.js"></script> -->
 
 </head>
 <body>
@@ -27,7 +30,8 @@
 
         <!-- Sidebar Section -->
         <aside class="sidebar">
-            <h3 class="sideheader">Tracked Stocks</h2>
+            <h3 class="sideheader">Tracked Stocks</h3>
+            <a class='refreshlink' href='/refresh'><i class="fas fa-sync refresh"></i></a>
             <ul class="tracked_stocks">
                 <!-- Stocks being tracked will be inserted here -->
                 {% for stock in tracked_stocks %}

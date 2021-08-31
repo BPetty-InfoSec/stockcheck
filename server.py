@@ -275,7 +275,7 @@ def cancel_edit():
 @app.route('/add')
 def add_stock():
     global global_edit_mode
-    pass
+    return render_template('add.html')
 
 # Route to handle removing a stock in the Tracked Stocks list
 @app.route('/remove/<stock_name>')
@@ -303,6 +303,9 @@ def remove_stock(stock_name):
         else:
             stock_name_parts.append(word)
 
+    print('********************************Stock Name Parts********************************')
+    print(stock_name_parts)
+    print('********************************************************************************')
     real_stock_name = ' '.join(stock_name_parts)
     stock_info_items = load_values()
 
@@ -365,6 +368,50 @@ def check_stock(stock_name):
     global global_current_stock
     global_current_stock = stock_name
     stock_info_items = load_values(global_current_stock)
+    return render_template('index.html',
+                            long_name=stock_info_items[0],
+                            logo_url=stock_info_items[1],
+                            website=stock_info_items[2],
+                            long_business_summary=stock_info_items[3],
+                            short_name=stock_info_items[4],
+                            address=stock_info_items[5],
+                            city=stock_info_items[6],
+                            state=stock_info_items[7],
+                            zipcode=stock_info_items[8],
+                            country=stock_info_items[9],
+                            phone=stock_info_items[10],
+                            sector=stock_info_items[11],
+                            industry=stock_info_items[12],
+                            full_time_employees=stock_info_items[13],
+                            total_revenue=stock_info_items[14],
+                            total_debt=stock_info_items[15],
+                            total_cash=stock_info_items[16],
+                            profit_margins=stock_info_items[17],
+                            gross_margins=stock_info_items[18],
+                            operating_margins=stock_info_items[19],
+                            operating_cashflow=stock_info_items[20],
+                            revenue_growth=stock_info_items[21],
+                            debt_to_equity=stock_info_items[22],
+                            last_fiscal_year_end=stock_info_items[23],
+                            fifty_two_week_change=stock_info_items[24],
+                            fifty_two_week_high=stock_info_items[25],
+                            fifty_two_week_low=stock_info_items[26],
+                            two_hundred_day_average=stock_info_items[27],
+                            average_volume=stock_info_items[28],
+                            average_daily_volume_10_day=stock_info_items[29],
+                            dividend_rate=stock_info_items[30],
+                            dividend_yield=stock_info_items[31],
+                            five_year_avg_dividend_yield=stock_info_items[32],
+                            market_cap=stock_info_items[33],
+                            regular_market_price=stock_info_items[34],
+                            tracked_stocks=stock_info_items[35],
+                            edit_flag=global_edit_mode)
+
+# Route to refresh stocks.json using stocks in Tracked Stocks list
+@app.route('/refresh')
+def go_refresh():
+    refresh_stocks()
+    stock_info_items = load_values()
     return render_template('index.html',
                             long_name=stock_info_items[0],
                             logo_url=stock_info_items[1],
