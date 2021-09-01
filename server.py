@@ -2,7 +2,7 @@
 
 import json
 import yfinance as yf
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 # Set global "Current Stock" variable to keep up with what is being
 # looked at between functions
@@ -11,10 +11,26 @@ global_current_stock = ""
 # Set global variable to track status of "edit mode" as a boolean
 global_edit_mode = False
 
-# Grab the stocks to check from the "stocks.json" file
-stocks_file = open("static/stocks.json", 'r')
-stock_data = json.load(stocks_file)
-stocks_file.close()
+# Refresh stocks in JSON file
+
+
+def refresh_stocks():
+
+    # Grab the stocks to check from the "stocks.json" file
+    stocks_file = open("static/stocks.json", 'r')
+    stock_data = json.load(stocks_file)
+    stocks_file.close()
+
+    # Grab stock info from each symbol
+    for item in stock_data['ToCheck']:
+        print("Gathering information on " + item + "...")
+        stock_info = yf.Ticker(stock_data['ToCheck'][item])
+        stock_data["Info"][item] = stock_info.info
+
+    # Write info to json file
+    stocks_file = open("static/stocks.json", "w")
+    json.dump(stock_data, stocks_file, indent=4)
+    stocks_file.close()
 
 # Initialize Flask
 app = Flask(__name__)
@@ -54,7 +70,10 @@ def load_values(stock_name = 'FirstRun'):
 
     # Load values from JSON file to list to pass to webpage
     for item in to_get_info:
-        stock_info_items.append(stock_info[item])
+        try:
+            stock_info_items.append(stock_info[item])
+        except:
+            stock_info_items.append('N/A')
 
     # Add values for stocks being tracked
     for item in stock_data["ToCheck"]:
@@ -116,19 +135,6 @@ def load_values(stock_name = 'FirstRun'):
     # 34 ['regularMarketPrice']
     # 35 [HTML for stocks being tracked on sidebar]
     # 36 [boolean for edit mode]
-
-# Refresh stocks in JSON file
-def refresh_stocks():
-    # Grab stock info from each symbol
-    for item in stock_data['ToCheck']:
-        print("Gathering information on " + item + "...")
-        stock_info= yf.Ticker(stock_data['ToCheck'][item])
-        stock_data["Info"][item]= stock_info.info
-
-    # Write info to json file
-    stocks_file = open("static/stocks.json", "w")
-    json.dump(stock_data, stocks_file, indent=4)
-    stocks_file.close()
 
 # Basic route
 @app.route('/')
@@ -271,11 +277,76 @@ def cancel_edit():
                             tracked_stocks=stock_info_items[35],
                             edit_flag=global_edit_mode)
 
-# Route to Add a stock
+# Route to go to the Add a stock page
 @app.route('/add')
-def add_stock():
+def go_add():
     global global_edit_mode
     return render_template('add.html')
+
+# Route to actually add the stock
+@app.route('/addstock', methods=['GET', 'POST'])
+def add_stock():
+    stock_name = request.form.get("stockname", "")
+    stock_symbol = request.form.get("stocksymbol", "")
+    print('Stock Name: ' + stock_name)
+    print('Stock Symbol: ' + stock_symbol)
+
+    # Open file and load JSON stocks file
+    stocks_file = open("static/stocks.json", "r")
+    stocks_data = json.load(stocks_file)
+    stocks_file.close()
+
+    stocks_data['ToCheck'][stock_name] = stock_symbol
+
+    # Write info to json file
+    stocks_file = open("static/stocks.json", "w")
+    json.dump(stocks_data, stocks_file, indent=4)
+    stocks_file.close()
+
+    refresh_stocks()
+    global global_current_stock
+    global_current_stock = stock_name
+
+    # Load the values to display
+    stock_info_items = load_values(global_current_stock)
+    return render_template('index.html',
+                            long_name=stock_info_items[0],
+                            logo_url=stock_info_items[1],
+                            website=stock_info_items[2],
+                            long_business_summary=stock_info_items[3],
+                            short_name=stock_info_items[4],
+                            address=stock_info_items[5],
+                            city=stock_info_items[6],
+                            state=stock_info_items[7],
+                            zipcode=stock_info_items[8],
+                            country=stock_info_items[9],
+                            phone=stock_info_items[10],
+                            sector=stock_info_items[11],
+                            industry=stock_info_items[12],
+                            full_time_employees=stock_info_items[13],
+                            total_revenue=stock_info_items[14],
+                            total_debt=stock_info_items[15],
+                            total_cash=stock_info_items[16],
+                            profit_margins=stock_info_items[17],
+                            gross_margins=stock_info_items[18],
+                            operating_margins=stock_info_items[19],
+                            operating_cashflow=stock_info_items[20],
+                            revenue_growth=stock_info_items[21],
+                            debt_to_equity=stock_info_items[22],
+                            last_fiscal_year_end=stock_info_items[23],
+                            fifty_two_week_change=stock_info_items[24],
+                            fifty_two_week_high=stock_info_items[25],
+                            fifty_two_week_low=stock_info_items[26],
+                            two_hundred_day_average=stock_info_items[27],
+                            average_volume=stock_info_items[28],
+                            average_daily_volume_10_day=stock_info_items[29],
+                            dividend_rate=stock_info_items[30],
+                            dividend_yield=stock_info_items[31],
+                            five_year_avg_dividend_yield=stock_info_items[32],
+                            market_cap=stock_info_items[33],
+                            regular_market_price=stock_info_items[34],
+                            tracked_stocks=stock_info_items[35],
+                            edit_flag=global_edit_mode)
 
 # Route to handle removing a stock in the Tracked Stocks list
 @app.route('/remove/<stock_name>')
@@ -303,25 +374,24 @@ def remove_stock(stock_name):
         else:
             stock_name_parts.append(word)
 
-    print('********************************Stock Name Parts********************************')
-    print(stock_name_parts)
-    print('********************************************************************************')
     real_stock_name = ' '.join(stock_name_parts)
     stock_info_items = load_values()
 
     stocks_file = open("static/stocks.json", "r")
     stock_data = json.load(stocks_file)
     stocks_file.close()
-    print("***Initial ToCheck***")
-    print(stock_data["ToCheck"])
-    print("Attempting to remove key: " + real_stock_name)
     del stock_data["ToCheck"][real_stock_name]
-    print("***Edited ToCheck***")
-    print(stock_data["ToCheck"])
     del stock_data["Info"][real_stock_name]
     stocks_file = open("static/stocks.json", "w")
     json.dump(stock_data, stocks_file, indent=4)
     stocks_file.close()
+
+    global global_current_stock
+    global global_edit_mode
+    global_current_stock = "FirstRun"
+    global_edit_mode = False
+
+    stock_info_items = load_values(global_current_stock)
 
     return render_template('index.html',
                             long_name=stock_info_items[0],
