@@ -35,6 +35,15 @@ def refresh_stocks():
 # Initialize Flask
 app = Flask(__name__)
 
+def first_stock():
+    stocks_file = open("static/stocks.json", 'r')
+    stock_data = json.load(stocks_file)
+    stocks_file.close()
+
+    keys = list(stock_data["ToCheck"].keys())
+    stock_name = keys[0]
+    return stock_name
+
 # Load values from stocks JSON file
 def load_values(stock_name = 'FirstRun'):
 
@@ -46,15 +55,19 @@ def load_values(stock_name = 'FirstRun'):
     # Open stocks.json file
     stocks_file= open("static/stocks.json", 'r')
     stock_data= json.load(stocks_file)
+    stocks_file.close()
 
     # Create default value of first stock in list
     if stock_name == 'FirstRun':
-        keys = list(stock_data["ToCheck"].keys())
-        stock_name = keys[0]
+        stock_name = first_stock()
         global_current_stock = stock_name
         print("Current Stock: " + global_current_stock)
 
-    stock_info = stock_data['Info'][global_current_stock]
+    try: 
+        stock_info = stock_data['Info'][global_current_stock]
+    except:
+        stock_name = first_stock()
+
     # Information to get from stock_info
     to_get_info = ['longName', 'logo_url', 'website', 'longBusinessSummary', 'shortName',
         'address1', 'city', 'state', 'zip', 'country',
@@ -136,48 +149,54 @@ def load_values(stock_name = 'FirstRun'):
     # 35 [HTML for stocks being tracked on sidebar]
     # 36 [boolean for edit mode]
 
+def set_return(page_name, stock_info_items):
+    return_template = render_template(page_name,
+                    long_name=stock_info_items[0],
+                    logo_url=stock_info_items[1],
+                    website=stock_info_items[2],
+                    long_business_summary=stock_info_items[3],
+                    short_name=stock_info_items[4],
+                    address=stock_info_items[5],
+                    city=stock_info_items[6],
+                    state=stock_info_items[7],
+                    zipcode=stock_info_items[8],
+                    country=stock_info_items[9],
+                    phone=stock_info_items[10],
+                    sector=stock_info_items[11],
+                    industry=stock_info_items[12],
+                    full_time_employees=stock_info_items[13],
+                    total_revenue=stock_info_items[14],
+                    total_debt=stock_info_items[15],
+                    total_cash=stock_info_items[16],
+                    profit_margins=stock_info_items[17],
+                    gross_margins=stock_info_items[18],
+                    operating_margins=stock_info_items[19],
+                    operating_cashflow=stock_info_items[20],
+                    revenue_growth=stock_info_items[21],
+                    debt_to_equity=stock_info_items[22],
+                    last_fiscal_year_end=stock_info_items[23],
+                    fifty_two_week_change=stock_info_items[24],
+                    fifty_two_week_high=stock_info_items[25],
+                    fifty_two_week_low=stock_info_items[26],
+                    two_hundred_day_average=stock_info_items[27],
+                    average_volume=stock_info_items[28],
+                    average_daily_volume_10_day=stock_info_items[29],
+                    dividend_rate=stock_info_items[30],
+                    dividend_yield=stock_info_items[31],
+                    five_year_avg_dividend_yield=stock_info_items[32],
+                    market_cap=stock_info_items[33],
+                    regular_market_price=stock_info_items[34],
+                    tracked_stocks=stock_info_items[35],
+                    edit_flag=global_edit_mode)
+    return return_template
+
+
 # Basic route
 @app.route('/')
 def index():
     stock_info_items = load_values("FirstRun")
-    return render_template('index.html', 
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Route to set up editing
 @app.route('/edit')
@@ -190,44 +209,8 @@ def set_edit():
 
     # Load the values to display
     stock_info_items = load_values(global_current_stock)
-    return render_template('index.html', 
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Cancel edit mode
 @app.route('/canceledit')
@@ -238,44 +221,8 @@ def cancel_edit():
 
     # Load the values to display
     stock_info_items = load_values(global_current_stock)
-    return render_template('index.html',
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Route to go to the Add a stock page
 @app.route('/add')
@@ -309,44 +256,8 @@ def add_stock():
 
     # Load the values to display
     stock_info_items = load_values(global_current_stock)
-    return render_template('index.html',
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Route to handle removing a stock in the Tracked Stocks list
 @app.route('/remove/<stock_name>')
@@ -393,44 +304,8 @@ def remove_stock(stock_name):
 
     stock_info_items = load_values(global_current_stock)
 
-    return render_template('index.html',
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Route to handle removing a stock in the Tracked Stocks list
 @app.route('/check/<stock_name>')
@@ -438,88 +313,16 @@ def check_stock(stock_name):
     global global_current_stock
     global_current_stock = stock_name
     stock_info_items = load_values(global_current_stock)
-    return render_template('index.html',
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Route to refresh stocks.json using stocks in Tracked Stocks list
 @app.route('/refresh')
 def go_refresh():
     refresh_stocks()
     stock_info_items = load_values()
-    return render_template('index.html',
-                            long_name=stock_info_items[0],
-                            logo_url=stock_info_items[1],
-                            website=stock_info_items[2],
-                            long_business_summary=stock_info_items[3],
-                            short_name=stock_info_items[4],
-                            address=stock_info_items[5],
-                            city=stock_info_items[6],
-                            state=stock_info_items[7],
-                            zipcode=stock_info_items[8],
-                            country=stock_info_items[9],
-                            phone=stock_info_items[10],
-                            sector=stock_info_items[11],
-                            industry=stock_info_items[12],
-                            full_time_employees=stock_info_items[13],
-                            total_revenue=stock_info_items[14],
-                            total_debt=stock_info_items[15],
-                            total_cash=stock_info_items[16],
-                            profit_margins=stock_info_items[17],
-                            gross_margins=stock_info_items[18],
-                            operating_margins=stock_info_items[19],
-                            operating_cashflow=stock_info_items[20],
-                            revenue_growth=stock_info_items[21],
-                            debt_to_equity=stock_info_items[22],
-                            last_fiscal_year_end=stock_info_items[23],
-                            fifty_two_week_change=stock_info_items[24],
-                            fifty_two_week_high=stock_info_items[25],
-                            fifty_two_week_low=stock_info_items[26],
-                            two_hundred_day_average=stock_info_items[27],
-                            average_volume=stock_info_items[28],
-                            average_daily_volume_10_day=stock_info_items[29],
-                            dividend_rate=stock_info_items[30],
-                            dividend_yield=stock_info_items[31],
-                            five_year_avg_dividend_yield=stock_info_items[32],
-                            market_cap=stock_info_items[33],
-                            regular_market_price=stock_info_items[34],
-                            tracked_stocks=stock_info_items[35],
-                            edit_flag=global_edit_mode)
+    return_template = set_return('index.html', stock_info_items)
+    return return_template
 
 # Start Flask server
 if __name__ == '__main__':
