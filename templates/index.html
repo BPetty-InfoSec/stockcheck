@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="lib/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/all.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/image/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/image/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/image/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <title>Stock Checker</title>
-    <script src="lib/js/jquery-3.6.0.min.js"></script>
-    <script src="lib/js/index.js"></script>
+    <!-- <script src="/static/js/jquery-3.6.0.min.js"></script> -->
+    <!-- <script src="/static/js/index.js"></script> -->
+    <script src="/static/js/attribution.js"></script>
+    <!-- <script src="/static/js/fontawesome.min.js"></script> -->
+
 </head>
 <body>
 
@@ -22,9 +30,23 @@
 
         <!-- Sidebar Section -->
         <aside class="sidebar">
-            <h3 class="sideheader">Tracked Stocks</h2>
+            <h3 class="sideheader">Tracked Stocks</h3>
+            <a class='refreshlink' href='/refresh'><i class="fas fa-sync refresh"></i></a>
             <ul class="tracked_stocks">
                 <!-- Stocks being tracked will be inserted here -->
+                {% for stock in tracked_stocks %}
+                    {% if edit_flag == true %}
+                        <li class='stockitem'><a class='stockLink' href='/remove/{{stock}}'>{{stock}}</a></li>
+                    {% else %}
+                        <li class='stockitem'><a class='stockLink' href='/check/{{stock}}'>{{stock}}</a></li>
+                    {% endif %}
+                {%- endfor %}
+                {% if edit_flag == true %}
+                    <li class='addstock'><a href='/add'>+ Add Tracked Stock</a></li>
+                    <li class='canceledit'><a href='/canceledit'>...Cancel Editing</a></li>
+                {% else %}
+                    <li class='editstocksitem'><a href='/edit'>...Edit Tracked Stocks</a></li>
+                {% endif %}
             </ul>
         </aside>
 
@@ -34,14 +56,14 @@
             <!-- Header Section -->
             <div class="informationHeaderSection">
                 <div class="mainHeader">
-                    <img class="logo" src="">
-                    <h2 class="subheader">General Stock Information</h2>
+                    <img class="logo" src={{logo_url}}>
+                    <h2 class="subheader">{{long_name}}</h2>
                 </div>
-                <a class="stockWebsiteLink" href="#">Website</a>
+                <a class="stockWebsiteLink" href="#">{{website}}</a>
             </div>
 
             <!-- Description Block -->
-            <p class="stockDescription">Description</p>
+            <p class="stockDescription">{{long_business_summary}}</p>
 
             <!-- Information Columns -->
             <div class="InfoSection">
@@ -49,11 +71,11 @@
                 <!-- Contact Information Column -- Values will change based on information in JSON file -->
                 <div class="stockContactInfo">
                     <h4>Contact Information</h4>
-                    <p class="addressName">Name</p>
-                    <p class="addressStreet">Street</p>
-                    <p class="addressCityStateLine">City</p>
-                    <p class="addressCountry">Country</p>
-                    <p class="stockPhone">Phone: 111-222-3333</p>
+                    <p class="addressName">{{address}}</p>
+                    <p class="addressStreet">{{street}}</p>
+                    <p class="addressCityStateLine">{{city}}</p>
+                    <p class="addressCountry">{{country}}</p>
+                    <p class="stockPhone">Phone: {{phone}}</p>
                 </div>
 
 
@@ -62,55 +84,55 @@
                     <h4>Business Information</h4>
                     <p class="businessSector">
                         <span class="titlepart">Sector: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{sector}}</span>
                     </p>
                     <p class="businessIndustry">
                         <span class="titlepart">Industry: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{industry}}</span>
                     </p>
                     <p class="numEmployees">
                         <span class="titlepart">Full Time Employees: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{full_time_employees}}</span>
                     </p>
                     <p class="totalRevenue">
                         <span class="titlepart">Total Revenue: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{total_revenue}}</span>
                     </p>
                     <p class="totalDebt">
                         <span class="titlepart">Total Debt: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{total_debt}}</span>
                     </p>
                     <p class="totalCash">
                         <span class="titlepart">Total Cash: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{total_cash}}</span>
                     </p>
                     <p class="profitMargins">
                         <span class="titlepart">Profit Margins: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{profit_margins}}</span>
                     </p>
                     <p class="grossMargins">
                         <span class="titlepart">Gross Margins: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{gross_margins}}</span>
                     </p>
                     <p class="operatingMargins">
                         <span class="titlepart">Operating Margins: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{operating_margins}}</span>
                     </p>
                     <p class="operatingCashflow">
                         <span class="titlepart">Operating Cashflow: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{operating_cashflow}}</span>
                     </p>
                     <p class="revenueGrowth">
                         <span class="titlepart">Revenue Growth: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{revenue_growth}}</span>
                     </p>
                     <p class="debtToEquity">
                         <span class="titlepart">Debt to Equity: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{debt_to_equity}}</span>
                     </p>
                     <p class="lastFiscalYearEnd">
                         <span class="titlepart">Last Fiscal Year End: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{last_fiscal_year_end}}</span>
                     </p>
                 </div>
 
@@ -119,47 +141,47 @@
                     <h4>Share Information</h4>
                     <p class="52WeekChange">
                         <span class="titlepart">52 Week Change: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{fifty_two_week_change}}</span>
                     </p>
                     <p class="52WeekHigh">
                         <span class="titlepart">52 Week High: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{fifty_two_week_high}}</span>
                     </p>
                     <p class="52WeekLow">
                         <span class="titlepart">52 Week Low: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{fifty_two_week_low}}</span>
                     </p>
                     <p class="200DayAverage">
                         <span class="titlepart">200 Day Average: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{two_hundred_day_average}}</span>
                     </p>
                     <p class="averageVolume">
                         <span class="titlepart">Average Volume: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{average_volume}}</span>
                     </p>
                     <p class="averageDailyVolume10Day">
                         <span class="titlepart">Average Daily Volume (10 Day): </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{average_daily_volume_10_day}}</span>
                     </p>
                     <p class="dividendRate">
                         <span class="titlepart">Dividend Rate: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{dividend_rate}}</span>
                     </p>
                     <p class="dividendYield">
                         <span class="titlepart">Dividend Yield: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{dividend_yield}}</span>
                     </p>
                     <p class="5YearAvgDividendYield">
                         <span class="titlepart">5 Year Average Dividend Yield: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{five_year_avg_dividend_yield}}</span>
                     </p>
                     <p class="marketCap">
                         <span class="titlepart">Market Cap: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{market_cap}}</span>
                     </p>
                     <p class="regularMarketPrice">
                         <span class="titlepart">Regular Market Price: </span>
-                        <span class="infopart">1</span>
+                        <span class="infopart">{{regular_market_price}}</span>
                     </p>
                 </div>
             </div>

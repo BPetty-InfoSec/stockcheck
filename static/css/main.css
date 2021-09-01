@@ -48,6 +48,7 @@
 aside{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 100vw;
     border-bottom: 3px solid var(--accent-color);
@@ -60,6 +61,20 @@ aside{
     font-size: clamp(1rem, 3vw, 2rem);
 }
 
+.refreshlink {
+    width: 100%;
+    color: var(--primary-color);
+}
+
+.refresh {
+    width: 100%;
+    margin-top: .5em;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
 .tracked_stocks {
     margin-top: .5em;
     margin-bottom: 1em;
@@ -67,6 +82,7 @@ aside{
 }
 
 .stockitem {
+    text-align: center;
     margin-top: .25em;
 }
 
@@ -74,12 +90,14 @@ aside{
 .canceledit,
 .addstock{
     text-decoration: none;
+    text-align: center;
     margin-top: 1em;
     font-size: .75em;
 }
 
 .stockLink{
     text-decoration: none;
+    color: var(--primary-color)
 }
 
 /* Main content area styling */
@@ -205,6 +223,35 @@ aside{
     margin-top: .25em;
 }
 
+.addstock {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+}
+
+.stockinput {
+    margin-top: .5em;
+}
+
+.btnlbl {
+    font-weight: bold;
+    float: left;
+    margin-right: .5em;
+    margin-top: .75em;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: .5em;
+    margin-bottom: 1em;
+}
+
+.buttons button {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
 /* Footer area styling */
 
 .footer {
@@ -226,15 +273,24 @@ aside{
         display: grid;
         grid-template-columns: 20% 80%;
         grid-template-rows: none;
+        height: 90vh;
     }
 
     aside{
-        display: reset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
         width: 100%;
-        height: 100%;
+        height: 90vh;
         border-right: 3px solid var(--accent-color);
         border-bottom: none;
         padding-right: 1em;
+    }
+
+    .tracked_stocks {
+        width: 100%;
+        height: 100%;
     }
 
     .sideheader {
@@ -242,7 +298,14 @@ aside{
         align-items: flex-start;
     }
 
-    .mainbody {
+.editstocksitem,
+.canceledit,
+.addstock{
+    text-decoration: none;
+    width: 100%;
+}
+
+.mainbody {
         padding-left: 1em;
     }
 
