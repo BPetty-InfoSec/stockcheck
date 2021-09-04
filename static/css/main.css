@@ -88,14 +88,21 @@ aside{
 
 .editstocksitem,
 .canceledit,
-.addstock{
+.addstock {
     text-decoration: none;
     text-align: center;
     margin-top: 1em;
     font-size: .75em;
 }
 
-.stockLink{
+.stockLink {
+    text-decoration: none;
+    color: var(--primary-color)
+}
+
+.stockeditlink,
+.addstocklink,
+.canceleditlink {
     text-decoration: none;
     color: var(--primary-color)
 }
@@ -264,6 +271,11 @@ aside{
 
 .footer div {
     margin: .5em;
+}
+
+.footer div a {
+    text-decoration: none;
+    color: var(--secondary-color);
 }
 
 /* Changes to style for Desktop viewing */

@@ -41,10 +41,10 @@
                     {% endif %}
                 {%- endfor %}
                 {% if edit_flag == true %}
-                    <li class='addstock'><a href='/add'>+ Add Tracked Stock</a></li>
-                    <li class='canceledit'><a href='/canceledit'>...Cancel Editing</a></li>
+                    <li class='addstock'><a class='addstocklink' href='/add'>+ Add Tracked Stock</a></li>
+                    <li class='canceledit'><a class='canceleditlink' href='/canceledit'>...Cancel Editing</a></li>
                 {% else %}
-                    <li class='editstocksitem'><a href='/edit'>...Edit Tracked Stocks</a></li>
+                    <li class="editstocksitem"><a class="stockeditlink" href='/edit'>...Edit Tracked Stocks</a></li>
                 {% endif %}
             </ul>
         </aside>
@@ -193,7 +193,11 @@
         <div class="socialinfo">
             <i class="fab fa-twitter" aria-hidden="true"></i>
             <a href="https://twitter.com/bpetty_infosec"> @BPetty_InfoSec</a>  | 
-            <i class="fab fa-github" aria-hidden="true"></i><a href="https://github.com/bpetty-infosec"> @BPetty-InfoSec</a></div>
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <a href="https://github.com/bpetty-infosec"> @BPetty-InfoSec</a>  |  
+            <i class="fab fa-linkedin" aria-hidden="true"></i> 
+            <a href="https://www.linkedin.com/in/bwpetty/">/bwpetty</a>
+        </div>
         <div class="copyright">Created by Brian Petty, 2021</div>
     </footer>
 </body>
