@@ -3,6 +3,9 @@
 import json
 import yfinance as yf
 from flask import Flask, render_template, request
+import locale
+
+locale.setlocale(locale.LC_ALL, '')
 
 # Set global "Current Stock" variable to keep up with what is being
 # looked at between functions
@@ -110,6 +113,7 @@ def load_values(stock_name = 'FirstRun'):
     return stock_info_items
 
     # List of information for stock_info_items with index number
+    # See "set_return()" for the setup
     #
     #  0 long_name = stock_info['longName']
     #  1 logo_url = stock_info['logo_url']
@@ -164,28 +168,28 @@ def set_return(page_name, stock_info_items):
                     phone=stock_info_items[10],
                     sector=stock_info_items[11],
                     industry=stock_info_items[12],
-                    full_time_employees=stock_info_items[13],
-                    total_revenue=stock_info_items[14],
-                    total_debt=stock_info_items[15],
-                    total_cash=stock_info_items[16],
-                    profit_margins=stock_info_items[17],
-                    gross_margins=stock_info_items[18],
-                    operating_margins=stock_info_items[19],
-                    operating_cashflow=stock_info_items[20],
-                    revenue_growth=stock_info_items[21],
+                    full_time_employees=locale.format_string('%10.0f', stock_info_items[13], grouping=True),
+                    total_revenue=locale.currency(stock_info_items[14], symbol=True, grouping=True),
+                    total_debt=locale.currency(stock_info_items[15], symbol=True, grouping=True),
+                    total_cash=locale.currency(stock_info_items[16], symbol=True, grouping=True),
+                    profit_margins='{:.4%}'.format(stock_info_items[17]),
+                    gross_margins='{:.4%}'.format(stock_info_items[18]),
+                    operating_margins='{:.4%}'.format(stock_info_items[19]),
+                    operating_cashflow=locale.currency(stock_info_items[20], symbol=True, grouping=True),
+                    revenue_growth='{:.4%}'.format(stock_info_items[21]),
                     debt_to_equity=stock_info_items[22],
-                    last_fiscal_year_end=stock_info_items[23],
-                    fifty_two_week_change=stock_info_items[24],
-                    fifty_two_week_high=stock_info_items[25],
-                    fifty_two_week_low=stock_info_items[26],
-                    two_hundred_day_average=stock_info_items[27],
-                    average_volume=stock_info_items[28],
-                    average_daily_volume_10_day=stock_info_items[29],
-                    dividend_rate=stock_info_items[30],
-                    dividend_yield=stock_info_items[31],
-                    five_year_avg_dividend_yield=stock_info_items[32],
-                    market_cap=stock_info_items[33],
-                    regular_market_price=stock_info_items[34],
+                    last_fiscal_year_end=locale.currency(stock_info_items[23], symbol=True, grouping=True),
+                    fifty_two_week_change='$' + locale.str(stock_info_items[24]),
+                    fifty_two_week_high=locale.currency(stock_info_items[25], symbol = True, grouping = True),
+                    fifty_two_week_low=locale.currency(stock_info_items[26], symbol=True, grouping=True),
+                    two_hundred_day_average=locale.currency(stock_info_items[27]),
+                    average_volume=locale.format_string('%10.0f', stock_info_items[28], grouping=True),
+                    average_daily_volume_10_day=locale.format_string('%10.0f', stock_info_items[29], grouping=True),
+                    dividend_rate='{:.4%}'.format(stock_info_items[30]),
+                    dividend_yield='{:.4%}'.format(stock_info_items[31]),
+                    five_year_avg_dividend_yield='{:.4%}'.format(stock_info_items[32]),
+                    market_cap=locale.currency(stock_info_items[33], symbol=True, grouping=True),
+                    regular_market_price=locale.currency(stock_info_items[34], symbol=True, grouping=True),
                     tracked_stocks=stock_info_items[35],
                     edit_flag=global_edit_mode)
     return return_template
