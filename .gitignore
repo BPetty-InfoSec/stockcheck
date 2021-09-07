@@ -128,9 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-secrets.json
-node_modules
 package-lock.json
 package.json
-launch.json
-jquery-*.js
+.vscode
+stocks.json
